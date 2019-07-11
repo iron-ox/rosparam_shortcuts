@@ -110,7 +110,7 @@ std::string getDebugArrayString(std::vector<ValueType> values)
   return debug_values;
 }
 
-template <>
+template <> inline
 std::string getDebugArrayString(std::vector<std::string> values)
 {
   std::string debug_values{};

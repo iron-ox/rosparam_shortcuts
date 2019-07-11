@@ -46,6 +46,7 @@
 
 namespace rosparam_shortcuts
 {
+
 bool get(const std::string &parent_name, const ros::NodeHandle &nh, const std::string &param_name, bool &value)
 {
   // Load a param
