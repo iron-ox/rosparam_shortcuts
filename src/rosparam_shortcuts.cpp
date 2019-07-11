@@ -46,6 +46,7 @@
 
 namespace rosparam_shortcuts
 {
+
 bool get(const std::string &parent_name, const ros::NodeHandle &nh, const std::string &param_name, bool &value)
 {
   // Load a param
@@ -101,6 +102,27 @@ bool get(const std::string &parent_name, const ros::NodeHandle &nh, const std::s
 
 bool get(const std::string &parent_name, const ros::NodeHandle &nh, const std::string &param_name,
          std::vector<double> &values)
+{
+  // Load a param
+  if (!nh.hasParam(param_name))
+  {
+    ROS_ERROR_STREAM_NAMED(parent_name, "Missing parameter '" << nh.getNamespace() << "/" << param_name << "'.");
+    return false;
+  }
+  nh.getParam(param_name, values);
+
+  if (values.empty())
+    ROS_WARN_STREAM_NAMED(parent_name, "Empty vector for parameter '" << nh.getNamespace() << "/" << param_name << "'"
+                                                                                                                   ".");
+
+  ROS_DEBUG_STREAM_NAMED(parent_name, "Loaded parameter '" << nh.getNamespace() << "/" << param_name
+                                                           << "' with values [" << getDebugArrayString(values) << "]");
+
+  return true;
+}
+
+bool get(const std::string &parent_name, const ros::NodeHandle &nh, const std::string &param_name,
+         std::vector<bool> &values)
 {
   // Load a param
   if (!nh.hasParam(param_name))
@@ -231,26 +253,6 @@ bool get(const std::string &parent_name, const ros::NodeHandle &nh, const std::s
   convertDoublesToEigen(parent_name, values, value);
 
   return true;
-}
-
-std::string getDebugArrayString(std::vector<double> values)
-{
-  std::stringstream debug_values;
-  for (std::size_t i = 0; i < values.size(); ++i)
-  {
-    debug_values << values[i] << ",";
-  }
-  return debug_values.str();
-}
-
-std::string getDebugArrayString(std::vector<std::string> values)
-{
-  std::stringstream debug_values;
-  for (std::size_t i = 0; i < values.size(); ++i)
-  {
-    debug_values << values[i] << ",";
-  }
-  return debug_values.str();
 }
 
 bool convertDoublesToEigen(const std::string &parent_name, std::vector<double> values, Eigen::Isometry3d &transform)
