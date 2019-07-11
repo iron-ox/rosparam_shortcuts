@@ -46,6 +46,15 @@
 
 namespace rosparam_shortcuts
 {
+
+template <>
+std::string getDebugArrayString(std::vector<std::string> values)
+{
+  std::string debug_values{};
+  for (const auto &value : values) debug_values += value + ",";
+  return debug_values;
+}
+
 bool get(const std::string &parent_name, const ros::NodeHandle &nh, const std::string &param_name, bool &value)
 {
   // Load a param

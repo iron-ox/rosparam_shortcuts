@@ -110,14 +110,6 @@ std::string getDebugArrayString(std::vector<ValueType> values)
   return debug_values;
 }
 
-template <>
-std::string getDebugArrayString(std::vector<std::string> values)
-{
-  std::string debug_values{};
-  for (const auto &value : values) debug_values += value + ",";
-  return debug_values;
-}
-
 /**
  * \brief Convert from 6 doubles of [x,y,z] [r,p,y] or 7 doubles of [x, y, z, qw, qx, qy, qz] to a transform
  * \return true on success
